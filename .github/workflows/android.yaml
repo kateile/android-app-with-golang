@@ -16,6 +16,11 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
+      - uses: nttld/setup-ndk@v1
+          id: setup-ndk
+          with:
+            ndk-version: '19.2.5345600'
+            add-to-path: true
 
       - name: Installing all dependencies
         working-directory: server
@@ -25,6 +30,8 @@ jobs:
         working-directory: server
         run: |
           go get -d golang.org/x/mobile/cmd/gomobile
+          export PATH=$PATH:$GOPATH/bin
+          gomobile init
           gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
 
       - name: Push aar to release
