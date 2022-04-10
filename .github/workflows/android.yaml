@@ -19,7 +19,20 @@ jobs:
 
       - name: Installing all dependencies
         working-directory: server
-        run: go get ./...
+        run: go install
+
+      - name: Build aar
+        working-directory: server
+        run: |
+          go get -d golang.org/x/mobile/cmd/gomobile
+          gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
+
+      - name: Push aar to release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ matrix.dir }}/client/app/libs/*aar"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
 #      - uses: actions/setup-java@v2
 #        with:
