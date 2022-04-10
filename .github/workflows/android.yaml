@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - main
+      - actions
 
 name: "Build & Release"
 jobs:
