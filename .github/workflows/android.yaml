@@ -16,13 +16,17 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
       - uses: nttld/setup-ndk@v1
           id: setup-ndk
           with:
             ndk-version: '19.2.5345600'
             add-to-path: true
 
-      - name: Installing all dependencies
+      - name: Installing go server dependencies
         working-directory: server
         run: go install
 
@@ -33,6 +37,8 @@ jobs:
           export PATH=$PATH:$GOPATH/bin
           gomobile init
           gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Push aar to release
         uses: ncipollo/release-action@v1
@@ -41,14 +47,3 @@ jobs:
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-#      - uses: actions/setup-java@v2
-#        with:
-#          distribution: 'zulu'
-#          java-version: '11'
-#
-#      - name: Push to Releases
-#        uses: ncipollo/release-action@v1
-#        with:
-#          artifacts: "${{ matrix.dir }}/build/app/outputs/apk/debug/*"
-#          tag: v1.0.${{ github.run_number }}
-#          token: ${{ secrets.GITHUB_TOKEN }}
