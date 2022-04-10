@@ -18,5 +18,7 @@ gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
 
 When the first button is pressed, it generates random string via go bindings
 
-![Showing android screenshot 1!](/screenshots/1.png)
-![Showing android screenshot 2!](/screenshots/2.png)
+
+<img src="/screenshots/1.png" alt="Screenshot 1" style="height: 500px; width:250px;"/>
+
+<img src="/screenshots/2.png" alt="Screenshot 2" style="height: 500px; width:250px;"/>
