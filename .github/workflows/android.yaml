@@ -16,15 +16,16 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
+      - run: export PATH=$PATH:$HOME/go/bin
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
-      - uses: nttld/setup-ndk@v1
-          id: setup-ndk
-          with:
-            ndk-version: '19.2.5345600'
-            add-to-path: true
+#      - uses: nttld/setup-ndk@v1
+#          id: setup-ndk
+#          with:
+#            ndk-version: '19.2.5345600'
+#            add-to-path: true
 
       - name: Installing go server dependencies
         working-directory: server
