@@ -26,7 +26,7 @@ jobs:
         run: go install
 
       - name: setting go path
-        run: export PATH=$PATH:$HOME/go/bin
+        run: echo "$HOME/go/bin" >> $GITHUB_PATH
 
       - uses: nttld/setup-ndk@v1
         id: ndk
