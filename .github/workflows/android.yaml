@@ -21,12 +21,15 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
+      - name: Set GOPATH
+          run: |
+            echo "##[set-env name=GOPATH;]$(dirname $GITHUB_WORKSPACE)"
+            echo "##[add-path]$(dirname $GITHUB_WORKSPACE)/bin"
+          shell: bash
+
       - name: Installing go server dependencies
         working-directory: server
         run: go install
-
-      - name: setting go path
-        run: echo "$PATH:$HOME/go/bin" >> $PATH
 
       - uses: nttld/setup-ndk@v1
         id: ndk
@@ -38,7 +41,6 @@ jobs:
         working-directory: server
         run: |
           go get -d golang.org/x/mobile/cmd/gomobile
-          export PATH=$PATH:$GOPATH/bin
           gomobile init
           gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
         env:
