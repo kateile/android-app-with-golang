@@ -22,10 +22,10 @@ jobs:
           java-version: '11'
 
       - name: Set GOPATH
-          run: |
-            echo "##[set-env name=GOPATH;]$(dirname $GITHUB_WORKSPACE)"
-            echo "##[add-path]$(dirname $GITHUB_WORKSPACE)/bin"
-          shell: bash
+        run: |
+          echo "##[set-env name=GOPATH;]$(dirname $GITHUB_WORKSPACE)"
+          echo "##[add-path]$(dirname $GITHUB_WORKSPACE)/bin"
+        shell: bash
 
       - name: Installing go server dependencies
         working-directory: server
