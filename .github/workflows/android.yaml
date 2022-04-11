@@ -31,7 +31,7 @@ jobs:
       - uses: nttld/setup-ndk@v1
         id: ndk
         with:
-          ndk-version: '19.2.5345600'
+          ndk-version: r19c
           add-to-path: true
 
       - name: Build aar
