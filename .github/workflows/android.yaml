@@ -16,12 +16,21 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
-        env:
-          GOPATH: $HOME
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
+
+      - name: Debug
+          run: |
+            pwd
+            echo ${HOME}
+            echo ${GITHUB_WORKSPACE}
+            echo ${GOPATH}
+            echo ${GOROOT}
+          env:
+            GOPATH: /home/runner/work/woodpecker/go
 
       - name: Installing go server dependencies
         working-directory: server
