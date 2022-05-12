@@ -65,12 +65,20 @@ class FirstFragment : Fragment() {
     }
 
 
+    /**
+     * Reference
+     * 1. https://developer.android.com/guide/background/threading
+     */
     private fun start(
         callback: (Result<String>) -> Unit
     ) {
         executorService.execute {
             try {
-                val port = startServer("7070")
+                val dir = context?.filesDir
+                val path = dir!!.path
+                Log.d("path: ", path)
+
+                val port = startServer("7070", "$path/my_db.db")
                 val result = Result.Success(port)
                 threadHandler.post { callback(result) }
             } catch (e: Exception) {
