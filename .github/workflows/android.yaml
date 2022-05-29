@@ -35,8 +35,8 @@ jobs:
       - name: Installing go server dependencies
         working-directory: server
         run: |
+          export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
           go install
-          export PATH=$PATH:~/go/bin
 
       - name: setup-android-tools
         uses: maxim-lobanov/setup-android-tools@v1
