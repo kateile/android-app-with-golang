@@ -22,16 +22,6 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-#      - name: Debug
-#          run: |
-#            pwd
-#            echo ${HOME}
-#            echo ${GITHUB_WORKSPACE}
-#            echo ${GOPATH}
-#            echo ${GOROOT}
-#          env:
-#            GOPATH: /home/runner/work/woodpecker/go
-
       - name: Installing go server dependencies
         working-directory: server
         run: |
@@ -53,7 +43,7 @@ jobs:
       - name: Push aar to release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ matrix.dir }}/client/app/libs/*aar"
+          artifacts: "client/app/libs/*.aar"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
