@@ -36,11 +36,10 @@ jobs:
         working-directory: server
         run: go install
 
-      - uses: nttld/setup-ndk@v1
-        id: ndk
+      - name: setup-android-tools
+        uses: maxim-lobanov/setup-android-tools@v1
         with:
-          ndk-version: r19c
-          add-to-path: true
+          packages: ndk;19.2.5345600
 
       - name: Build aar
         working-directory: server
@@ -48,8 +47,6 @@ jobs:
           go get -d golang.org/x/mobile/cmd/gomobile
           gomobile init
           gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
-        env:
-          ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
 
       - name: Push aar to release
         uses: ncipollo/release-action@v1

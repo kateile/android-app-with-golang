@@ -74,7 +74,7 @@ class FirstFragment : Fragment() {
     ) {
         executorService.execute {
             try {
-                val dir = context?.filesDir
+                val dir = activity?.filesDir
                 val path = dir!!.path
                 Log.d("path: ", path)
 
