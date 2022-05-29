@@ -22,15 +22,15 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - name: Debug
-          run: |
-            pwd
-            echo ${HOME}
-            echo ${GITHUB_WORKSPACE}
-            echo ${GOPATH}
-            echo ${GOROOT}
-          env:
-            GOPATH: /home/runner/work/woodpecker/go
+#      - name: Debug
+#          run: |
+#            pwd
+#            echo ${HOME}
+#            echo ${GITHUB_WORKSPACE}
+#            echo ${GOPATH}
+#            echo ${GOROOT}
+#          env:
+#            GOPATH: /home/runner/work/woodpecker/go
 
       - name: Installing go server dependencies
         working-directory: server
