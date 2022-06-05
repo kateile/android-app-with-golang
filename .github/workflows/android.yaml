@@ -36,9 +36,15 @@ jobs:
       - name: Build aar
         working-directory: server
         run: |
-          go get -d golang.org/x/mobile/cmd/gomobile
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          go install golang.org/x/mobile/cmd/gobind@latest
+          go get golang.org/x/mobile/cmd/gobind
+          go get golang.org/x/mobile/cmd/gomobile
           gomobile init
           gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
+        env:
+          GOPROXY: https://proxy.golang.org,direct
+          GO111MODULE: "on"
 
       - name: Push aar to release
         uses: ncipollo/release-action@v1
