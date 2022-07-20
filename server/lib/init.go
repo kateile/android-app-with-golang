@@ -1,6 +1,7 @@
 package lib
 
 import (
+    "fmt"
 	"crypto/rand"
 	"encoding/base64"
 	"github.com/gin-gonic/gin"
@@ -26,11 +27,13 @@ func StartServer(port string) string {
 			"message": "It's working dude!!!!!!",
 		})
 	})
-	err := r.Run(":" + port) // listen and serve on 0.0.0.0:9090 (for windows "localhost:9090")
 
-	if err != nil {
-		panic("some error occurred: " + err.Error())
-	}
+	go func() {
+	    err := r.Run(":" + port) // listen and serve on 0.0.0.0:9090 (for windows "localhost:9090")
+	    if err != nil {
+            fmt.Println("the server run is error: " + err.Error())
+        }
+	}()
 
 	return port
 }
