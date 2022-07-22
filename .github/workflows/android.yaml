@@ -33,23 +33,17 @@ jobs:
         with:
           packages: ndk;19.2.5345600
 
-      - name: Build aar
-        working-directory: server
-        run: |
-          go install golang.org/x/mobile/cmd/gomobile@latest
-          go install golang.org/x/mobile/cmd/gobind@latest
-          go get golang.org/x/mobile/cmd/gobind
-          go get golang.org/x/mobile/cmd/gomobile
-          gomobile init
-          gomobile bind -v -o ../client/app/libs/server.aar -target=android ./lib
+      - name: Building app
+        shell: pwsh
+        run: ./scripts/build_app.ps1
         env:
           GOPROXY: https://proxy.golang.org,direct
           GO111MODULE: "on"
 
-      - name: Push aar to release
+      - name: Push aar and apk to release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "client/app/libs/*.aar"
+          artifacts: "client/app/libs/*.aar,client/app/build/outputs/apk/release/*.apk"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
