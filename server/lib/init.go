@@ -1,10 +1,12 @@
 package lib
 
 import (
-    "fmt"
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"math"
 )
 
@@ -18,7 +20,32 @@ func RandomString(l int) string {
 	return str[:l] // strip 1 extra character we get from odd length results
 }
 
-func StartServer(port string) string {
+type Product struct {
+	gorm.Model
+	Code  string
+	Price uint
+}
+
+func StartServer(port string, dsn string) string {
+	/**
+	DB Configuration
+	*/
+	db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	// Migrate the schema
+	err = db.AutoMigrate(&Product{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.Create(&Product{Code: "D42", Price: 100})
+
+	/**
+	Gin configuration
+	*/
 	r := gin.Default()
 
 	//Wildcard for handling all Get requests
@@ -29,10 +56,10 @@ func StartServer(port string) string {
 	})
 
 	go func() {
-	    err := r.Run(":" + port) // listen and serve on 0.0.0.0:9090 (for windows "localhost:9090")
-	    if err != nil {
-            fmt.Println("the server run is error: " + err.Error())
-        }
+		err := r.Run(":" + port) // listen and serve on 0.0.0.0:9090 (for windows "localhost:9090")
+		if err != nil {
+			fmt.Println("the server run is error: " + err.Error())
+		}
 	}()
 
 	return port
